@@ -128,7 +128,7 @@ const virtualOptions = ['localField', 'foreignField'];
  * @param options RawOptions of the Prop
  */
 export function isWithVirtualPOP(options: any): options is VirtualOptions {
-  return Object.keys(options).some(v => virtualOptions.includes(v));
+  return Object.keys(options).some((v) => virtualOptions.includes(v));
 }
 
 export const allVirtualoptions = virtualOptions.slice(0);
@@ -139,7 +139,7 @@ allVirtualoptions.push('ref');
  * @param options RawOptions of the Prop
  */
 export function includesAllVirtualPOP(options: VirtualOptions): options is VirtualOptions {
-  return allVirtualoptions.every(v => Object.keys(options).includes(v));
+  return allVirtualoptions.every((v) => Object.keys(options).includes(v));
 }
 
 /**
