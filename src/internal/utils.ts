@@ -99,15 +99,8 @@ export function getClassForDocument(document: mongoose.Document): NewableFunctio
  * Return true if there are Options
  * @param options The raw Options
  */
-export function isWithStringValidate(
-  options: PropOptionsWithStringValidate
-): options is PropOptionsWithStringValidate {
-  return !isNullOrUndefined(
-    options.match
-    || options.enum
-    || options.minlength
-    || options.maxlength
-  );
+export function isWithStringValidate(options: PropOptionsWithStringValidate): options is PropOptionsWithStringValidate {
+  return !isNullOrUndefined(options.match || options.enum || options.minlength || options.maxlength);
 }
 
 /**
@@ -135,7 +128,7 @@ const virtualOptions = ['localField', 'foreignField'];
  * @param options RawOptions of the Prop
  */
 export function isWithVirtualPOP(options: any): options is VirtualOptions {
-  return Object.keys(options).some((v) => virtualOptions.includes(v));
+  return Object.keys(options).some(v => virtualOptions.includes(v));
 }
 
 export const allVirtualoptions = virtualOptions.slice(0);
@@ -146,7 +139,7 @@ allVirtualoptions.push('ref');
  * @param options RawOptions of the Prop
  */
 export function includesAllVirtualPOP(options: VirtualOptions): options is VirtualOptions {
-  return allVirtualoptions.every((v) => Object.keys(options).includes(v));
+  return allVirtualoptions.every(v => Object.keys(options).includes(v));
 }
 
 /**
@@ -155,9 +148,9 @@ export function includesAllVirtualPOP(options: VirtualOptions): options is Virtu
  * @internal
  */
 function isModelOptions(value: unknown): value is IModelOptions {
-  return value && (
-    typeof (value as IModelOptions).schemaOptions === 'object' ||
-    typeof (value as IModelOptions).options === 'object'
+  return (
+    value &&
+    (typeof (value as IModelOptions).schemaOptions === 'object' || typeof (value as IModelOptions).options === 'object')
   );
 }
 
@@ -192,12 +185,13 @@ export function assignMetadata(key: DecoratorKeys, value: unknown, cl: new () =>
 export function getName<T, U extends AnyParamConstructor<T>>(cl: U) {
   // disabled until hasezoey#23 & hasezoey#24 gets fixed
 
-  // const options: IModelOptions = Reflect.getMetadata(DecoratorKeys.ModelOptions, cl) || {};
+  const options: IModelOptions = Reflect.getMetadata(DecoratorKeys.ModelOptions, cl) || {};
 
-  // const baseName = cl.name;
-  // const suffix = (options.options ? options.options.customName : undefined) ||
-  //   (options.schemaOptions ? options.schemaOptions.collection : undefined);
+  const baseName = cl.name;
+  const suffix =
+    (options.options ? options.options.customName : undefined) ||
+    (options.schemaOptions ? options.schemaOptions.collection : undefined);
 
-  // return suffix ? `${baseName}_${suffix}` : baseName;
-  return cl.name;
+  return suffix ? `${baseName}_${suffix}` : baseName;
+  // return cl.name;
 }
